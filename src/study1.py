@@ -1,6 +1,10 @@
 
 import sys
 from tools.log_helper import log
+from tools.log_helper import set_log_style
+
+
+# 导入模块
 import asyncio
 # 关键字列表
 import keyword
@@ -18,8 +22,9 @@ import keyword
 '''
 三个单引号或双引号之间可以写任何内容，但一般情况下，我们会在文件开头写上文件说明，然后空一行再写代码。
 '''
+set_log_style("simple")
 
-def println(*args):
+def test_print(*args):
     #哈哈哈哈哈
     """
     这是一个三引号注释，但是第一个引号必须和函数名在同一行对齐，否则会报错
@@ -37,8 +42,7 @@ print(x)
 print(y)
 print(X)
 print(my_list)
-println(my_list)
-println(type(x), x, X, y)
+
 """
 This is a comment
 written in
@@ -110,6 +114,8 @@ odd_numbers = get_odd_numbers()
 print(odd_numbers)
 # 被global修饰的my_list变量也被修改了，所以打印出来是：[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99]
 log.info(f"my_list={my_list}")
+
+set_log_style("standard")
 
 my_list = 9
 log.info(f"my_list={my_list}")
