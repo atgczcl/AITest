@@ -8,17 +8,30 @@ log.setLevel(logging.DEBUG)
 # 创建一个颜色日志格式器
 log_format = colorlog.ColoredFormatter(
     # "%(log_color)s%(levelname)s:(message)s",
-    "%(log_color)s%(message)s",
-    # "%(log_color)s%(levelname)s:%(message)s",
+    # "%(log_color)s%(message)s",
+    # "%(log_color)s[%(filename)s:%(lineno)d] %(message)s",
+    # "[%(reset)s%(filename)s:%(lineno)d]%(log_color)s%(message)s",
+    # "[%(message_log_color)s%(filename)s:%(lineno)d%(reset)s] %(log_color)s%(levelname)-8s %(message)s",
     # "%(log_color)s%(levelname)s:%(name)s:%(message)s",
+    "[%(message_log_color)s%(filename)s:%(lineno)d%(reset)s] %(log_color)s%(message)s",
     log_colors={
         "DEBUG": "cyan",
         "INFO": "green",
         "WARNING": "yellow",
         "ERROR": "red",
         "CRITICAL": "red,bg_white",
+        
     },
-    secondary_log_colors={},
+    secondary_log_colors={
+        "message":{
+        "DEBUG": "blue",
+        "INFO": "blue",
+        "WARNING": "blue",
+        "ERROR": "blue",
+        "CRITICAL": "blue",
+        },
+    },
+    reset=True,  # 重置颜色
     style="%",
 )
 

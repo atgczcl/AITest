@@ -1,12 +1,23 @@
+
+import sys
+from tools.log_helper import log
+import asyncio
+# 关键字列表
+import keyword
+
+
 """
 #!/usr/bin/env python
 在 Linux/Unix 系统中，你可以在脚本顶部添加以下命令让 Python 脚本可以像 SHELL 脚本一样可直接执行：
 #! /usr/bin/env python3.7
 ./hello.py
-# -*- coding: utf-8 -*-"""
-import sys
-from tools.log_helper import log
-import asyncio
+默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：
+# -*- coding: cp-1252 -*-
+# -*- coding: utf-8 -*-
+"""
+'''
+三个单引号或双引号之间可以写任何内容，但一般情况下，我们会在文件开头写上文件说明，然后空一行再写代码。
+'''
 
 def println(*args):
     #哈哈哈哈哈
@@ -150,3 +161,81 @@ x = set([1, 2, 3, 2, 1])
 log.info(f"x={x}, {type(x)}")
 x = list(("apple", "banana", "cherry"))
 log.info(f"x={x}, {type(x)}")
+
+# tuple
+x = (1, 2, 3)
+y = ("xx", "yy", "zz")
+log.info(f"x={x}, y={y}, {type(y)}")
+#关键字
+log.info(f"关键字列表：{keyword.kwlist}")
+
+
+# nonlocal 关键字学习
+def outer():
+    x = 10
+    def inner():
+        nonlocal x
+        x = 20
+        print("inner:", x)
+    inner()
+    print("outer:", x)
+outer()  # 输出：inner: 20, outer: 20
+
+
+# 装饰器学习
+def my_decorator(func):
+    def wrapper():
+        print("Something is happening before the function is called.")
+        func()
+        print("Something is happening after the function is called.")
+    return wrapper
+
+
+@my_decorator
+def say_whee():
+    """" 定义一个函数，打印出“Something is happening before the function is called. Whee! Something is happening after the function is called.,装饰器就是把自己定义的函数作为参数传给另一个函数，并返回一个新的函数（意思就是把原函数的功能加上了额外的功能，通俗一点就是把自己装饰起来，穿上衣服等的人模狗样！）"""
+    print("Whee!")
+
+
+say_whee()  # 输出：Something is happening before the function is called. Whee! Something is happening after the function is called.
+
+# Python 中单引号和双引号使用完全相同，但单引号和双引号不能匹配。
+
+x = u"你好，世界！ this is an unicode string"
+y = r"你好，世界！, this is a raw string\n"
+z = x.replace("h", 'H')  # 字符串是不可变的，所以不能修改
+log.info(f"x={x}, y={y}, z={z}")
+# x[0] = 'H'  # 字符串是不可变的，所以不能修改  [头下标: 尾下标: 步长]
+log.info(f"x={x[0:-1]}, y={y[0:]}, z={z[1::2]}，xyz={x+y+z}") # 切片操作
+t = "你好，世界"
+#计算string长度
+log.info(f"len(x)={len(x)}, len(y)={len(y)}, len(z)={len(z)}, len(xyz)={len(t)}")
+#判断是否为空字符串, python 中没有char类型，所以判断空字符串可以用not x or y or z
+log.info(f"x is null? {not x}, y is null? {not y}, z is null? {not z}")
+
+# 测试input()函数
+def test_input():
+    """
+    测试input()函数
+    """
+    input("\n\nPress Enter to continue...")
+    x = int(input("请输入一个数字："))
+    log.info(f"你输入的内容是：{type(x)}")
+    sys.stdout.write(str(x) + '\n')
+
+# 测试代码组
+def test_code_group():
+    """
+    测试代码组
+    """
+    log.info("测试代码组")
+    expression = True
+    if expression :
+        
+        log.info("表达式为True1111")
+    elif expression :
+
+        log.info("表达式为True222")
+    else:
+        log.info("表达式为False")
+test_code_group()
