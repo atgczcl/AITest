@@ -1,8 +1,7 @@
 
 import sys
-from tools.log_helper import log
-from tools.log_helper import set_log_style
-
+from tools.log_helper import log, set_log_style
+# 将某个模块中的全部函数导入，格式为：​ from somemodule import *​
 
 # 导入模块
 import asyncio
@@ -22,7 +21,7 @@ import keyword
 '''
 三个单引号或双引号之间可以写任何内容，但一般情况下，我们会在文件开头写上文件说明，然后空一行再写代码。
 '''
-set_log_style("simple")
+set_log_style("standard")
 
 def test_print(*args):
     #哈哈哈哈哈
@@ -73,6 +72,7 @@ log.warning("这是一条warning级别的日志")
 print()
 log.error("这是一条error级别的日志")
 print()
+log.info()
 log.critical("这是一条critical级别的日志")
 log.info(f"x={x}, y={y}, X={X}, my_list={my_list}")
 print(f"{x}{y}{X}{my_list}")
@@ -245,3 +245,71 @@ def test_code_group():
     else:
         log.info("表达式为False")
 test_code_group()
+
+# 像 if、while、def 和 class 这样的复合语句，首行以关键字开始，以冒号 ( : ) 结束，该行之后的一行或多行代码构成代码组。
+
+# 我们将首行及后面的代码组称为一个子句 (clause)。
+
+
+# 条件语句学习
+# if 语句
+if log :
+    log.info("log is True")
+else :
+    log.info("log is False")
+
+# if-else 语句
+if log :
+    log.info("log is True")
+else :
+    log.info("log is False")
+
+
+# if-elif-else 语句
+if log :
+    log.info("log is True")
+elif log :
+    log.info("log is True")
+else :
+    log.info("log is False")
+
+# 循环语句学习
+# for 循环
+for i in range(5):
+    log.info(f"i={i}")
+
+
+# while 循环
+i = 0
+while i < 5:
+    log.info(f"i={i}")
+    i += 1
+
+
+# 列表推导式学习
+# 列表推导式是一种创建列表的简洁方式，它可以用来创建包含某些元素的新列表。
+
+# 语法：
+# new_list = [expression for item in iterable if condition]
+
+# 例子：
+# 1. 筛选出列表中的偶数
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+even_numbers = [num for num in numbers if num % 2 == 0]
+log.info(f"numbers={numbers}, even_numbers={even_numbers}")
+
+# 2. 筛选出列表中的奇数
+odd_numbers = [num for num in numbers if num % 2 != 0]
+log.info(f"numbers={numbers}, odd_numbers={odd_numbers}")  
+
+# 3. 列表中的元素两两相加
+numbers = [1, 2, 3, 4, 5]
+pairs_sum = [num1 + num2 for num1 in numbers for num2 in numbers]
+log.info(f"numbers={numbers}, pairs_sum={pairs_sum}")
+
+# 4. 列表中的元素两两相乘
+pairs_product = [num1 * num2 for num1 in numbers for num2 in numbers]
+log.info(f"numbers={numbers}, pairs_product={pairs_product}")
+
+# 你可以使用 sys.path.append(path) 来添加一个路径，系统路径
+log.info(f"sys.path={sys.path}")

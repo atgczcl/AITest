@@ -1,9 +1,11 @@
 import logging
 import colorlog
+import builtins
+
 
 # 创建一个颜色日志记录器
-log = colorlog.getLogger()
-log.setLevel(logging.DEBUG)
+logg = colorlog.getLogger()
+logg.setLevel(logging.DEBUG)
 
 # 日志style枚举
 log_style_enum = {
@@ -27,7 +29,7 @@ def get_log_style():
 
 # 设置日志输出格式
 def set_log_style(style):
-    """设置日志输出格式"""
+    """设置日志输出格式, style: simple, standard, simple_color, verbose, debug"""
     global log_style
     log_style = style
     # 设置日志格式 
@@ -82,4 +84,27 @@ set_log_format(get_log_format())
 # console_handler.setFormatter(log_format)
 
 # 将日志处理器添加到日志记录器
-log.addHandler(console_handler)
+logg.addHandler(console_handler)
+
+# 重定向 print 函数
+def log_print(message: str|None="\n", *args, **kwargs):
+    ''' 重定向 print 函数， 空message则输出换行符 '''
+    # 使用logging.info来替换print
+    if not message:
+        logg.info("")
+    elif args or kwargs:
+        logg.info(message.format(*args, **kwargs))
+    else:
+        logg.info(message)
+
+# 替换原生的 print 函数
+builtins.print = log_print
+
+# # 保存原始的 print 函数
+# original_print = builtins.print
+
+# # ... 重定向 print 函数的代码 ...
+
+# # 恢复原始的 print 函数
+# builtins.print = original_print
+
