@@ -98,24 +98,43 @@ set_log_format(get_log_format())
 # console_handler.setFormatter(log_format)
 
 # 将日志处理器添加到日志记录器
-log.addHandler(console_handler)
-# 重定向 print 函数
-# def log_print(*args, sep=" ", end="\n"):
-#         """重定向 print 函数，则输出换行符"""
-#         output = sep.join(map(str, args)) + end
-#         log.info(output)
+# log.addHandler(console_handler)
 
 # # 替换原生的 print 函数
 # builtins.print = log_print
 
-# # 保存原始的 print 函数
-# original_print = builtins.print
+# 保存原始的 print 函数
+original_print = builtins.print
 
 # # ... 重定向 print 函数的代码 ...
 
 # # 恢复原始的 print 函数
 # builtins.print = original_print
-
+# 定义颜色代码
+red = "\033[31m"
+green = "\033[32m"
+yellow = "\033[33m"
+blue = "\033[34m"
+magenta = "\033[35m"
+cyan = "\033[36m"
+reset = "\033[0m"
+def get_color_text(text, color_code):
+    ''' 获取带颜色的文本
+    # 定义颜色代码
+red = "\033[31m"
+green = "\033[32m"
+yellow = "\033[33m"
+blue = "\033[34m"
+magenta = "\033[35m"
+cyan = "\033[36m"
+reset = "\033[0m"
+    '''
+    # 构造完整的 ANSI 转义序列 ansi_escape = f"\033[{display_code};{color_code};{background_code}m"
+    # ansi_escape = f"\033[{color_code};32;1m"
+    ansi_escape = f"\033[{color_code}m"
+    # 重置颜色
+    reset_escape = "\033[0m"
+    return f"{ansi_escape}{text}{reset_escape}"
 
 def my_print(*args, sep=' ', end='\n', file=sys.stdout, flush=False, log_file='output.log'):
     # 获取调用者的栈帧信息
@@ -134,47 +153,42 @@ def my_print(*args, sep=' ', end='\n', file=sys.stdout, flush=False, log_file='o
         # 将文件路径和行号添加到输出中
         # args = (f"[File '{filename}':{lineno}] ",) + args
         # args = (f"['{current_time} {filename}':{lineno}] ",) + args
-        args = (f"[{current_time} {filename}:{lineno}] ",) + args
+        color_head = (f"{blue}[{current_time} {filename}:{lineno}] {reset}{green}",)
+        head = (f"[{current_time} {filename}:{lineno}] ",)
+        color_args = color_head + args
+        args = head + args 
     
-    # # 将输出内容转换为字符串
-    # output = sep.join(map(str, args)) + end
-    # global log_style_enum
-    # global log_style
-    # 创建一个颜色日志格式器
-    # log_format = colorlog.ColoredFormatter(
-    #     "%(log_color)s%(message)s",
-    #     log_colors={
-    #         "DEBUG": "cyan",
-    #         "INFO": "green",
-    #         "WARNING": "yellow",
-    #         "ERROR": "red",
-    #         "CRITICAL": "white, bg_red",
-    #     },
-    #     reset=True,  # 重置颜色
-    #     style="%",
-    # )
     # 将输出内容转换为字符串
     output = sep.join(map(str, args)) + end
-    # log_record = logging.makeLogRecord({
-    #     "name": "my_logger",  # 日志记录器的名字
-    #     "level": logging.INFO,  # 日志级别
-    #     "msg": output,  # 日志消息
-    #     "args": (),  # 日志消息的参数
-    #     "exc_info": None,  # 异常信息
-    #     "func": None,  # 函数名
-    #     "filename": filename,  # 文件名
-    #     "lineno": lineno,  # 行号
-    #     })
-    # # 使用颜色日志格式器格式化输出
-    # colored_output = log_format.format(log_record)
-    
+    color_output = sep.join(map(str, color_args)) + end + reset
+    # 设置颜色为绿色，背景无，显示方式为高亮显示 32;40;1
+
+    # output = get_color_text(output, 34)  # 设置颜色为绿色，背景色为黑色，显示方式为高亮显示
+    # output = get_color_text(output, 34, 0, 0)  # 设置颜色为蓝色，背景色为黑色，显示方式为高亮显示
     # 写入到标准输出
-    file.write(output)
+    file.write(color_output)
     if flush:
         file.flush()
     
+    # 删除字符中的颜色代码
+    # output = output.replace(red, '').replace(green, '').replace(yellow, '').replace(blue, '').replace(magenta, '').replace(cyan, '').replace(reset, '')
     # 同时将内容写入到日志文件
     with open(log_file, 'a', encoding='utf-8') as logfile:
         logfile.write(output)
 
-builtins.print = my_print
+# builtins.print = my_print
+
+def set_log_printable(printable):
+    """设置日志是否可以打印"""
+    global log_printable
+    log_printable = printable
+    if log_printable:
+        builtins.print = my_print
+        log.addHandler(console_handler)
+    else:
+        builtins.print = original_print
+        log.removeHandler(console_handler)
+# 日志是否可以打印
+log_printable = True
+# 设置日志是否可以打印
+set_log_printable(True)
