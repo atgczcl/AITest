@@ -1,6 +1,6 @@
 
 import sys
-from tools.log_helper import log, set_log_style
+from tools.log_helper import log
 # 将某个模块中的全部函数导入，格式为：​ from somemodule import *​
 # from loguru import logger as log
 # 导入模块
