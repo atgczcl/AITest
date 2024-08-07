@@ -2,7 +2,7 @@
 import sys
 from tools.log_helper import log, set_log_style
 # 将某个模块中的全部函数导入，格式为：​ from somemodule import *​
-
+# from loguru import logger as log
 # 导入模块
 import asyncio
 # 关键字列表
@@ -21,7 +21,8 @@ import keyword
 '''
 三个单引号或双引号之间可以写任何内容，但一般情况下，我们会在文件开头写上文件说明，然后空一行再写代码。
 '''
-set_log_style("standard")
+# log.add("out.log", backtrace=True, diagnose=True)
+# set_log_style("standard")
 
 def test_print(*args):
     #哈哈哈哈哈
@@ -72,7 +73,7 @@ log.warning("这是一条warning级别的日志")
 print()
 log.error("这是一条error级别的日志")
 print()
-log.info()
+# log.info("") 不能为空 
 log.critical("这是一条critical级别的日志")
 log.info(f"x={x}, y={y}, X={X}, my_list={my_list}")
 print(f"{x}{y}{X}{my_list}")
@@ -115,7 +116,7 @@ print(odd_numbers)
 # 被global修饰的my_list变量也被修改了，所以打印出来是：[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99]
 log.info(f"my_list={my_list}")
 
-set_log_style("standard")
+# set_log_style("standard")
 
 my_list = 9
 log.info(f"my_list={my_list}")
@@ -313,3 +314,4 @@ log.info(f"numbers={numbers}, pairs_product={pairs_product}")
 
 # 你可以使用 sys.path.append(path) 来添加一个路径，系统路径
 log.info(f"sys.path={sys.path}")
+print(f"sys.path={sys.path}")

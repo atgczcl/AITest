@@ -66,30 +66,31 @@ class Logger:
         """设置日志格式"""
         self.console_handler.setFormatter(log_format)
 
-    def log_print(self, message: str | None = "\n", *args, **kwargs):
-        """重定向 print 函数，空message则输出换行符"""
-        if not message:
-            self.logg.info("")
-        elif args or kwargs:
-            self.logg.info(message.format(*args, **kwargs))
-        else:
-            self.logg.info(message)
+    def log_print(self, *args, sep=" ", end="\n"):
+        """重定向 print 函数，则输出换行符"""
+        output = sep.join(map(str, args)) + end
+        self.logg.info(output)
 
     def restore_original_print(self):
         """恢复原始的 print 函数"""
         builtins.print = self.original_print
-        
-    def debug(self, message: str, *args, **kwargs):
-        self.logger.debug(message, *args, **kwargs)
 
-    def info(self, message: str, *args, **kwargs):
-        self.logger.info(message, *args, **kwargs)
+    def debug(self, *args, sep=" ", end="\n"):
+        output = sep.join(map(str, args)) + end
+        self.logg.debug(output)
 
-    def warning(self, message: str, *args, **kwargs):
-        self.logger.warning(message, *args, **kwargs)
+    def info(self, *args, sep=" ", end="\n"):
+        output = sep.join(map(str, args)) + end
+        self.logg.info(output)
 
-    def error(self, message: str, *args, **kwargs):
-        self.logger.error(message, *args, **kwargs)
+    def warning(self, *args, sep=" ", end="\n"):
+        output = sep.join(map(str, args)) + end
+        self.logg.warning(output)
 
-    def critical(self, message: str, *args, **kwargs):
-        self.logger.critical(message, *args, **kwargs)
+    def error(self, *args, sep=" ", end="\n"):
+        output = sep.join(map(str, args)) + end
+        self.logg.error(output)
+
+    def critical(self, *args, sep=" ", end="\n"):
+        output = sep.join(map(str, args)) + end
+        self.logg.critical(output)

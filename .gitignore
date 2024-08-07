@@ -1,3 +1,5 @@
 /.pyc
 /.venv
 /src/tools/__pycache__
+out.log
+output.log
