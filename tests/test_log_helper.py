@@ -1,6 +1,7 @@
 
 import sys
-from tools.log_helper import log, logger
+# sys.path.append('../log_helper') #project 根目录
+from loghelper.log_helper import log, logger
 # 将某个模块中的全部函数导入，格式为：​ from somemodule import *​
 # from loguru import logger as log
 # 导入模块

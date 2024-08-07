@@ -4,3 +4,5 @@
 out.log
 output.log
 /log_helper/log_helper/__pycache__/*.pyc
+/venv
+/loghelper/__pycache__/*.pyc
