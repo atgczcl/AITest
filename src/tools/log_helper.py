@@ -160,6 +160,7 @@ class LogHelper:
 
     def set_log_enable(self, logEnable: bool, printEnable=True):
         """是否可以打印到控制台"""
+        print(f"logEnable: {logEnable}\nprintEnable: {printEnable}")
         if logEnable:
             self.logger.addHandler(self.console_handler)
         else:
