@@ -3,3 +3,4 @@
 /src/tools/__pycache__
 out.log
 output.log
+/log_helper/log_helper/__pycache__/*.pyc
