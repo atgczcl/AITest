@@ -1,6 +1,6 @@
 
 import sys
-from tools.log_helper import log
+from tools.log_helper import log, logger
 # 将某个模块中的全部函数导入，格式为：​ from somemodule import *​
 # from loguru import logger as log
 # 导入模块
@@ -23,6 +23,7 @@ import keyword
 '''
 # log.add("out.log", backtrace=True, diagnose=True)
 # set_log_style("standard")
+logger.set_log_enable(True)
 
 def test_print(*args):
     #哈哈哈哈哈

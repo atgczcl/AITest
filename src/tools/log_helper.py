@@ -7,6 +7,24 @@ from datetime import datetime
 
 
 class LogHelper:
+    ''' 日志辅助类 
+    支持log.info, print 等方法提供日志输出、格式设置、颜色设置等功能
+    调用方法：
+        log.info("This is a test.")
+        log.warning("This is a warning.")
+        log.error("This is an error.")
+        log.critical("This is a critical error.")
+        log.debug("This is a debug message.")
+    替换原生的 print 函数, 并支持颜色输出：
+        print("This is a test.")
+    主要功能：
+    1. 日志输出到控制台和文件
+    2. 日志格式设置：simple, standard, simple_color, verbose, debug
+    3. 日志颜色设置：red, green, yellow, blue, magenta, cyan, reset
+    4. 日志级别设置：DEBUG, INFO, WARNING, ERROR, CRITICAL, NOTSET
+    5. 日志打印控制：可以控制日志是否可以打印到控制台和文件
+
+    '''
 
     #字符串颜色代码
     COLOR_CODES = {
@@ -51,13 +69,14 @@ class LogHelper:
         # 初始化日志格式
         self.set_log_style("standard")
 
+        # 保存原始的 print 函数
+        self.original_print = builtins.print
+
         # 添加日志处理器
         # self.logger.addHandler(self.console_handler)
         # self.logger.addHandler(self.file_handler)
-        self.set_log_printable(True)
+        self.set_log_enable(True)
 
-        # 保存原始的 print 函数
-        self.original_print = builtins.print
 
     def set_log_level(self, level):
         """设置日志级别
@@ -139,14 +158,16 @@ class LogHelper:
         with open(self.log_file, 'a', encoding='utf-8') as logfile:
             logfile.write(output)
 
-    def set_log_printable(self, printable):
-        """设置日志是否可以打印"""
-        if printable:
-            builtins.print = self.my_print
+    def set_log_enable(self, logEnable: bool, printEnable=True):
+        """是否可以打印到控制台"""
+        if logEnable:
             self.logger.addHandler(self.console_handler)
         else:
-            builtins.print = self.original_print
             self.logger.removeHandler(self.console_handler)
+        if printEnable:
+            builtins.print = self.my_print
+        else:
+            builtins.print = self.original_print
 
     def __enter__(self):
         # 替换原生的 print 函数
@@ -169,4 +190,5 @@ class LogHelper:
 #         logger.set_log_style("simple_color")
 #         logger.my_print("Testing simple_color style.")
 
-log = LogHelper().logger
+logger = LogHelper()
+log = logger.logger
