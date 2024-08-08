@@ -8,6 +8,7 @@ from datetime import datetime
 
 class LogHelper:
     ''' 日志辅助类 
+    Just: from LLoghelper.log_helper import log, logger
     支持log.info, print 等方法提供日志输出、格式设置、颜色设置等功能
     调用方法：
         log.info("This is a test.")

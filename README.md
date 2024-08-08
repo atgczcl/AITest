@@ -1,7 +1,18 @@
-# log\_helper
+# LLoghelper
+
+使用：
+
+> pip install LLoghelper
+
+导入：
+
+> ```python
+> from LLoghelper.log_helper import log, logger
+> ```
 
 ```python
  ''' 日志辅助类 
+
     支持log.info, print 等方法提供日志输出、格式设置、颜色设置等功能
     调用方法：
         log.info("This is a test.")

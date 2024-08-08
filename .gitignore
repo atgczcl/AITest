@@ -3,6 +3,9 @@
 /src/tools/__pycache__
 out.log
 output.log
-/log_helper/log_helper/__pycache__/*.pyc
+*.pyc
 /venv
-/loghelper/__pycache__/*.pyc
+/LLoghelper/__pycache__
+/LLoghelper.egg-info
+/build/lib
+/dist

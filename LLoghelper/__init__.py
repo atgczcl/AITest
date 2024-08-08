@@ -2,7 +2,6 @@
 
 """log_helper.py is a helper module for logging in Python. It provides a set of functions and classes for logging in Python."""
 
-__version__ = "0.1.0"
 __author__ = "atgczcl"
 __email__ = "atgczcl@163.com"
 # __all__ = ["log_helper"]
