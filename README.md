@@ -1,18 +1,28 @@
 # LLoghelper
 
-使用：
+#### 1.使用：
 
 > pip install LLoghelper
 
-导入：
+#### 2.导入：
 
 > ```python
 > from LLoghelper.log_helper import log, logger
+>
+>
 > ```
+
+#### 3.控制日志log, print 是否可以打印  print=false恢复原样
+
+```python
+logger.set_log_enable(True, True)  
+```
+
+说明：
 
 ```python
  ''' 日志辅助类 
-
+	logger.set_log_enable(True, True)  #控制日志log, print 是否可以打印  print=false恢复原样
     支持log.info, print 等方法提供日志输出、格式设置、颜色设置等功能
     调用方法：
         log.info("This is a test.")
@@ -33,3 +43,4 @@
 ```
 
 ![image](./docs/screenshot.png)
+
