@@ -194,7 +194,7 @@ outer()  # 输出：inner: 20, outer: 20
 # 装饰器学习
 def my_decorator(func):
     def wrapper():
-        print("Something is happening before the function is called.")
+        print("Something is happening before the function is called.", log_level=logger.CRITICAL)
         func()
         print("Something is happening after the function is called.")
     return wrapper
@@ -316,4 +316,4 @@ log.info(f"numbers={numbers}, pairs_product={pairs_product}")
 
 # 你可以使用 sys.path.append(path) 来添加一个路径，系统路径
 log.info(f"sys.path={sys.path}")
-print(f"sys.path={sys.path}")
+print(f"sys.path={sys.path}", log_level=logger.CRITICAL)

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='LLoghelper',
-    version='0.1.2',
+    version='0.2.0',
     packages=find_packages(),
     install_requires=[
         'colorlog>=6.8.2',  # 如果有依赖项，请列出

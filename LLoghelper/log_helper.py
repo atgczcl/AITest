@@ -8,7 +8,9 @@ from datetime import datetime
 
 class LogHelper:
     ''' 日志辅助类 
-    Just: from LLoghelper.log_helper import log, logger
+    Just: 
+    pip install LLoghelper
+    from LLoghelper.log_helper import log, logger
     支持log.info, print 等方法提供日志输出、格式设置、颜色设置等功能
     调用方法：
         log.info("This is a test.")
@@ -18,6 +20,11 @@ class LogHelper:
         log.debug("This is a debug message.")
     替换原生的 print 函数, 并支持颜色输出：
         print("This is a test.")
+        print("This is a critical test.", log_level=logger.CRITICAL)
+        print("This is a warning test.", log_level=logger.WARNING)
+        print("This is an error test.", log_level=logger.ERROR)
+        print("This is a debug test.", log_level=logger.DEBUG)
+        print("This is a info test.", log_level=logger.INFO)
     主要功能：
     1. 日志输出到控制台和文件
     2. 日志格式设置：simple, standard, simple_color, verbose, debug
@@ -26,6 +33,34 @@ class LogHelper:
     5. 日志打印控制：可以控制日志是否可以打印到控制台和文件
 
     '''
+
+    CRITICAL = 50
+    FATAL = CRITICAL
+    ERROR = 40
+    WARNING = 30
+    WARN = WARNING
+    INFO = 20
+    DEBUG = 10
+    NOTSET = 0
+
+    _levelToName = {
+        CRITICAL: 'CRITICAL',
+        ERROR: 'ERROR',
+        WARNING: 'WARNING',
+        INFO: 'INFO',
+        DEBUG: 'DEBUG',
+        NOTSET: 'NOTSET',
+    }
+    _nameToLevel = {
+        'CRITICAL': CRITICAL,
+        'FATAL': FATAL,
+        'ERROR': ERROR,
+        'WARN': WARNING,
+        'WARNING': WARNING,
+        'INFO': INFO,
+        'DEBUG': DEBUG,
+        'NOTSET': NOTSET,
+    }
 
     #字符串颜色代码
     COLOR_CODES = {
@@ -36,6 +71,7 @@ class LogHelper:
         "magenta": "\033[35m",
         "cyan": "\033[36m",
         "reset": "\033[0m",
+        "bg_red": "\033[41m",  # 背景色红色
     } #字符串颜色代码
 
     LOG_STYLE_ENUM = {
@@ -47,6 +83,8 @@ class LogHelper:
         "verbose": "%(log_color)s[%(asctime)s%(pathname)s:%(lineno)d] %(message)s",
         "debug": "%(log_color)s[%(asctime)s%(pathname)s:%(lineno)d] %(levelname)-8s %(message)s",
     }
+
+
 
     def __init__(self, logger_name='my_logger', log_file='output.log'):
         self.logger_name = logger_name
@@ -128,7 +166,7 @@ class LogHelper:
         reset_escape = self.COLOR_CODES["reset"]
         return f"{ansi_escape}{text}{reset_escape}"
 
-    def my_print(self, *args, sep=' ', end='\n', file=sys.stdout, flush=False):
+    def my_print(self, *args, sep=' ', end='\n', file=sys.stdout, flush=False, log_level=INFO):
         # 获取调用者的栈帧信息
         stack = inspect.stack()
         # 调用者信息在栈中的位置通常是第二个元素（索引为1）
@@ -143,13 +181,13 @@ class LogHelper:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             # 将文件路径和行号添加到输出中
             head = (f"[{current_time} {filename}:{lineno}] ",)
-            color_head = (f"{self.COLOR_CODES['blue']}[{current_time} {filename}:{lineno}] {self.COLOR_CODES['green']}",)
+            color_head = (f"{self.COLOR_CODES['blue']}[{current_time} {filename}:{lineno}]{self.COLOR_CODES['reset']} {self.get_log_color(log_level)}",)
             color_args = color_head + args
             args = head + args
     
         # 将输出内容转换为字符串
         output = sep.join(map(str, args)) + end
-        color_output = sep.join(map(str, color_args)) + end + self.COLOR_CODES["reset"]
+        color_output = sep.join(map(str, color_args)) + self.COLOR_CODES['reset']+ end 
     
         # 写入到标准输出
         file.write(color_output)
@@ -158,6 +196,21 @@ class LogHelper:
         # 同时将内容写入到日志文件
         with open(self.log_file, 'a', encoding='utf-8') as logfile:
             logfile.write(output)
+
+    #通过level获取日志颜色
+    def get_log_color(self, level):
+        if level >= LogHelper.CRITICAL or level == LogHelper.FATAL:
+            return self.COLOR_CODES["bg_red"]
+        elif level >= LogHelper.ERROR:
+            return self.COLOR_CODES["red"]
+        elif level >= LogHelper.WARNING or level == LogHelper.WARN:
+            return self.COLOR_CODES["yellow"]
+        elif level >= LogHelper.INFO:
+            return self.COLOR_CODES["green"]
+        elif level >= LogHelper.DEBUG:
+            return self.COLOR_CODES["blue"]
+        else:
+            return self.COLOR_CODES["reset"]
 
     def set_log_enable(self, logEnable: bool, printEnable=True):
         """是否可以打印到控制台"""
